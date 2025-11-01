@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "build": "your-build-tool build",
     "dev": "nodemon app.js"
   },
   "dependencies": {
@@ -12,7 +13,7 @@
     "ejs": "^3.1.9",
     "axios": "^1.6.0"
   },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
+  "engines": {
+    "node": "18.x"
   }
 }
