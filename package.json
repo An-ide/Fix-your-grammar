@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "build": "your-build-tool build",
+    "build": "echo 'No build step required for this project'",
     "dev": "nodemon app.js"
   },
   "dependencies": {
@@ -14,6 +14,6 @@
     "axios": "^1.6.0"
   },
   "engines": {
-    "node": ">=24.x"
+    "node": "24.x"
   }
 }
