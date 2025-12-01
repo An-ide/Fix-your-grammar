@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -18,6 +18,15 @@ app.get('/', (req, res) => {
     originalText: '',
     hasResult: false,
     error: null
+  });
+});
+
+// Health check endpoint for Vercel
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    service: 'Grammar Correction App'
   });
 });
 
@@ -181,9 +190,25 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
-app.listen(port, () => {
-  console.log(`🚀 Grammar Correction App running at http://localhost:${port}`);
-  console.log(`📝 Using LanguageTool API for AI-powered grammar checking`);
-  console.log(`🆓 Completely free - no API key required`);
+// 404 handler
+app.use((req, res) => {
+  res.status(404).render('index', {
+    corrected: null,
+    originalText: '',
+    hasResult: false,
+    error: 'Page not found'
+  });
 });
+
+// Export for Vercel serverless function
+module.exports = app;
+
+// Start server for local development only
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`🚀 Grammar Correction App running at http://localhost:${port}`);
+    console.log(`📝 Using LanguageTool API for AI-powered grammar checking`);
+    console.log(`🆓 Completely free - no API key required`);
+    console.log(`🌐 Health check: http://localhost:${port}/health`);
+  });
+}
